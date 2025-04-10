@@ -101,3 +101,58 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
+## 📁 Archivos incluidos
+
+El proyecto incluye dos archivos SQL ubicados en `src/main/resources`:
+
+- **`schema.sql`**: Crea las tablas necesarias (usuarios, productos, categorías, pedidos, etc.)
+- **`data.sql`**: Inserta datos iniciales útiles para pruebas y demostraciones
+
+---
+
+## ✅ Ejecución automática con pruebas
+
+Al ejecutar el test de integración `Modulo9ProyectoApplicationTests`, los archivos `schema.sql` y `data.sql` se ejecutan automáticamente gracias a esta anotación:
+
+
+```java
+@Sql({"/schema.sql", "/data.sql"})
+```
+
+Esto asegura que se cree la estructura de la base de datos y se carguen los datos cada vez que corras los tests.
+
+---
+
+## ⚙️ Configuración opcional para cargar en tiempo de ejecución
+
+Si deseas que los scripts SQL se ejecuten automáticamente al iniciar la aplicación sin necesidad de correr las pruebas, puedes agregar estas líneas al archivo `application.properties`:
+
+```properties
+spring.sql.init.mode=always
+spring.sql.init.schema-locations=classpath:schema.sql
+spring.sql.init.data-locations=classpath:data.sql
+```
+
+Esto asegura que tu base de datos se inicialice automáticamente cada vez que arranques el proyecto, sin intervención manual.
+
+---
+
+## 💡 Recomendación adicional
+
+Asegúrate de que la base de datos definida en tu archivo `application.properties` **exista** antes de levantar el proyecto. Por ejemplo:
+
+```sql
+CREATE DATABASE modulo9data CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Y en `application.properties`:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/modulo9data
+spring.datasource.username=root
+spring.datasource.password=Root.1234
+```
+
+---
+
+Con esta configuración, no necesitas crear las tablas manualmente, ni insertar datos uno por uno. Todo queda automatizado ✅
